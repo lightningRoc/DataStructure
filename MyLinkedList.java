@@ -1,289 +1,229 @@
-/**
- * LinkedList class implements a doubly-linked list.
- */
-public class MyLinkedList<AnyType> implements Iterable<AnyType>
-{
-    /**
-     * Construct an empty LinkedList.
-     */
-    public MyLinkedList( )
-    {
-        doClear( );
-    }
-    
-    private void clear( )
-    {
-        doClear( );
-    }
-    
-    /**
-     * Change the size of this collection to zero.
-     */
-    public void doClear( )
-    {
-        beginMarker = new Node<>( null, null, null );
-        endMarker = new Node<>( null, beginMarker, null );
-        beginMarker.next = endMarker;
-        
-        theSize = 0;
-        modCount++;
-    }
-    
-    /**
-     * Returns the number of items in this collection.
-     * @return the number of items in this collection.
-     */
-    public int size( )
-    {
-        return theSize;
-    }
-    
-    public boolean isEmpty( )
-    {
-        return size( ) == 0;
-    }
-    
-    /**
-     * Adds an item to this collection, at the end.
-     * @param x any object.
-     * @return true.
-     */
-    public boolean add( AnyType x )
-    {
-        add( size( ), x );   
-        return true;         
-    }
-    
-    /**
-     * Adds an item to this collection, at specified position.
-     * Items at or after that position are slid one position higher.
-     * @param x any object.
-     * @param idx position to add at.
-     * @throws IndexOutOfBoundsException if idx is not between 0 and size(), inclusive.
-     */
-    public void add( int idx, AnyType x )
-    {
-        addBefore( getNode( idx, 0, size( ) ), x );
-    }
-    
-    /**
-     * Adds an item to this collection, at specified position p.
-     * Items at or after that position are slid one position higher.
-     * @param p Node to add before.
-     * @param x any object.
-     * @throws IndexOutOfBoundsException if idx is not between 0 and size(), inclusive.
-     */    
-    private void addBefore( Node<AnyType> p, AnyType x )
-    {
-        Node<AnyType> newNode = new Node<>( x, p.prev, p );
-        newNode.prev.next = newNode;
-        p.prev = newNode;         
-        theSize++;
-        modCount++;
-    }   
-    
-    
-    /**
-     * Returns the item at position idx.
-     * @param idx the index to search in.
-     * @throws IndexOutOfBoundsException if index is out of range.
-     */
-    public AnyType get( int idx )
-    {
-        return getNode( idx ).data;
-    }
-        
-    /**
-     * Changes the item at position idx.
-     * @param idx the index to change.
-     * @param newVal the new value.
-     * @return the old value.
-     * @throws IndexOutOfBoundsException if index is out of range.
-     */
-    public AnyType set( int idx, AnyType newVal )
-    {
-        Node<AnyType> p = getNode( idx );
-        AnyType oldVal = p.data;
-        
-        p.data = newVal;   
-        return oldVal;
-    }
-    
-    /**
-     * Gets the Node at position idx, which must range from 0 to size( ) - 1.
-     * @param idx index to search at.
-     * @return internal node corresponding to idx.
-     * @throws IndexOutOfBoundsException if idx is not between 0 and size( ) - 1, inclusive.
-     */
-    private Node<AnyType> getNode( int idx )
-    {
-        return getNode( idx, 0, size( ) - 1 );
-    }
+import java.util.Iterator;
 
-    /**
-     * Gets the Node at position idx, which must range from lower to upper.
-     * @param idx index to search at.
-     * @param lower lowest valid index.
-     * @param upper highest valid index.
-     * @return internal node corresponding to idx.
-     * @throws IndexOutOfBoundsException if idx is not between lower and upper, inclusive.
-     */    
-    private Node<AnyType> getNode( int idx, int lower, int upper )
-    {
-        Node<AnyType> p;
-        
-        if( idx < lower || idx > upper )
-            throw new IndexOutOfBoundsException( "getNode index: " + idx + "; size: " + size( ) );
-            
-        if( idx < size( ) / 2 )
-        {
-            p = beginMarker.next;
-            for( int i = 0; i < idx; i++ )
-                p = p.next;            
-        }
-        else
-        {
-            p = endMarker;
-            for( int i = size( ); i > idx; i-- )
-                p = p.prev;
-        } 
-        
-        return p;
-    }
-    
-    /**
-     * Removes an item from this collection.
-     * @param idx the index of the object.
-     * @return the item was removed from the collection.
-     */
-    public AnyType remove( int idx )
-    {
-        return remove( getNode( idx ) );
-    }
-    
-    /**
-     * Removes the object contained in Node p.
-     * @param p the Node containing the object.
-     * @return the item was removed from the collection.
-     */
-    private AnyType remove( Node<AnyType> p )
-    {
-        p.next.prev = p.prev;
-        p.prev.next = p.next;
-        theSize--;
-        modCount++;
-        
-        return p.data;
-    }
-    
-    /**
-     * Returns a String representation of this collection.
-     */
-    public String toString( )
-    {
-        StringBuilder sb = new StringBuilder( "[ " );
+public class MyLinkedList<T> implements Iterable<T>{
+	
+	private int size;//链表元素数量
+	private Node<T> head;//头节点
+	private Node<T> tail;//尾节点
+	
+	public MyLinkedList()
+	{
+		clear();
+	}
+	
+	private static class Node<T>//表示节点
+	{
+		public T value;
+		public Node<T> pre;
+		public Node<T> next;
+		
+		public Node(T value,Node<T> pre,Node<T> next)//给定两个节点，在两点间插入一个值为value的新节点
+		{
+			this.value=value;
+			this.pre=pre;
+			this.next=next;
+		}
+	}
+	
+	public void clear()//清除链表
+	{
+		head=new Node<T>(null,null,null);
+		tail=new Node<T>(null,head,null);
+		
+		head.next=tail;
+		size=0;
+	}
+	
+	public int size()//返回链表大小
+	{
+		return size;
+	}
+	
+	public boolean isEmpty()//判断链表是否为空
+	{
+		return size==0;
+	}
+	
+	private void addPrevious(Node<T> pre,T element)//将新节点插入指定节点之前
+	{
+		Node<T> newNode=new Node<>(element,pre.pre,pre);
+		newNode.pre.next=newNode;
+		pre.pre=newNode;
+		
+		size++;
+	}
+	
+	public void add(int index,T element)//将元素插入指定索引处
+	{
+		addPrevious(getNode(index,0,size()),element);
+	}
+	
+	public void add(T element)//将元素插入链表后
+	{
+		add(size,element);
+	}
+	
+	public void addFirst(T element)//将元素插入链表头
+	{
+		add(0,element);
+	}
+	
+	public void addLast(T element)//同add(T element)
+	{
+		add(element);
+	}
+	
+	public void removeFirst()//删除第一个元素
+	{
+		remove(head.next);
+	}
+	
+	public void removeLast()//删除最后一个元素
+	{
+		remove(tail.pre);
+	}
+	
+	public T getFirst()//获取第一个元素
+	{
+		return get(0);
+	}
+	
+	public T getLast()//获取最后一个元素
+	{
+		return get(size-1);
+	}
+	
+	public T get(int index)//获取指定索引处的元素值
+	{
+		return getNode(index,0,size-1).value;
+	}
+	
+	public void set(int index,T newValue)//改变索引处的元素
+	{
+		Node<T> node=getNode(index,0,size-1);
+		node.value=newValue;
+	}
+	
+	public void remove(int index)//删除指定索引处的元素
+	{
+		Node<T> node=getNode(index,0,size-1);
+		
+		remove(node);
+	}
+	
+	public void remove(T element)//给定元素进行删除
+	{
+		Node<T> cursion=head.next;
+		
+		while(cursion!=tail)
+		{
+			if(cursion.value.equals(element))
+			{
+				remove(cursion);
+				break;
+			}
+			cursion=cursion.next;
+		}
+	}
+	
+	private void remove(Node<T> node)//删除指定节点
+	{
+		node.next.pre=node.pre;
+		node.pre.next=node.next;
+		size--;
+	}
+	
+	//返回索引值值为index并且位于lower与upper之间的节点
+	private Node<T> getNode(int index,int lower,int upper)
+	{
+		Node<T> res=null;
+		
+		if(index<lower||index>upper)throw new IndexOutOfBoundsException();
+		
+		if(index<size/2)
+		{
+			res=head.next;
+			for(int i=0;i<index;i++)res=res.next;
+		}
+		else
+		{
+			res=tail;
+			for(int i=size;i>index;i--)
+			{
+				res=res.pre;
+			}
+		}
+		
+		return res;
+	}
+	
+	public boolean contains(T element)//元素是否在链表中
+	{
+		Node<T> p=head.next;
+		while(p!=tail&&!(p.value.equals(p.value)))
+		{
+			p=p.next;
+		}
+		
+		return p!=tail;
+	}
+	
+	public Iterator<T> iterator()//返回迭代器
+	{
+		return new LinkedListIterator();
+	}
+	
+	private class LinkedListIterator implements Iterator<T>
+	{
+		private Node<T> cursion=head.next;
+		private boolean okToRemove=false;
+		
+		public boolean hasNext()
+		{
+			return cursion!=tail;
+		}
+		
+		public T next()
+		{
+			if(!hasNext())return null;
+			
+			T res=cursion.value;
+			cursion=cursion.next;
+			okToRemove=true;
+			
+			return res;
+		}
+		
+		public void remove()//删除next越过的元素，并且仅当next()被调用后才可执行
+		{
+			if(!okToRemove)throw new IllegalStateException();
+			
+			MyLinkedList.this.remove(cursion.pre);
+			okToRemove=false;
+		}
+	}
 
-        for( AnyType x : this )
-            sb.append( x + " " );
-        sb.append( "]" );
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		MyLinkedList<Integer> test=new MyLinkedList<>();
+		for(int i=0;i<10;i++)test.add(i*2);
+		test.remove(new Integer(2));//与test.remove(2)不同
+		
+		for(int n:test)
+		{
+			System.out.println(n);
+		}
+		
+		Iterator<Integer> itr=test.iterator();
+		
+		while(itr.hasNext())
+		{
+			itr.next();
+			itr.remove();
+		}
+		
+		System.out.println("删除后：");
+		System.out.println(test.size());
+	}
 
-        return new String( sb );
-    }
-
-    /**
-     * Obtains an Iterator object used to traverse the collection.
-     * @return an iterator positioned prior to the first element.
-     */
-    public java.util.Iterator<AnyType> iterator( )
-    {
-        return new LinkedListIterator( );
-    }
-
-    /**
-     * This is the implementation of the LinkedListIterator.
-     * It maintains a notion of a current position and of
-     * course the implicit reference to the MyLinkedList.
-     */
-    private class LinkedListIterator implements java.util.Iterator<AnyType>
-    {
-        private Node<AnyType> current = beginMarker.next;
-        private int expectedModCount = modCount;
-        private boolean okToRemove = false;
-        
-        public boolean hasNext( )
-        {
-            return current != endMarker;
-        }
-        
-        public AnyType next( )
-        {
-            if( modCount != expectedModCount )
-                throw new java.util.ConcurrentModificationException( );
-            if( !hasNext( ) )
-                throw new java.util.NoSuchElementException( ); 
-                   
-            AnyType nextItem = current.data;
-            current = current.next;
-            okToRemove = true;
-            return nextItem;
-        }
-        
-        public void remove( )
-        {
-            if( modCount != expectedModCount )
-                throw new java.util.ConcurrentModificationException( );
-            if( !okToRemove )
-                throw new IllegalStateException( );
-                
-            MyLinkedList.this.remove( current.prev );
-            expectedModCount++;
-            okToRemove = false;       
-        }
-    }
-    
-    /**
-     * This is the doubly-linked list node.
-     */
-    private static class Node<AnyType>
-    {
-        public Node( AnyType d, Node<AnyType> p, Node<AnyType> n )
-        {
-            data = d; prev = p; next = n;
-        }
-        
-        public AnyType data;
-        public Node<AnyType>   prev;
-        public Node<AnyType>   next;
-    }
-    
-    private int theSize;
-    private int modCount = 0;
-    private Node<AnyType> beginMarker;
-    private Node<AnyType> endMarker;
-}
-
-class TestLinkedList
-{
-    public static void main( String [ ] args )
-    {
-        MyLinkedList<Integer> lst = new MyLinkedList<>( );
-
-        for( int i = 0; i < 10; i++ )
-                lst.add( i );
-        for( int i = 20; i < 30; i++ )
-                lst.add( 0, i );
-
-        lst.remove( 0 );
-        lst.remove( lst.size( ) - 1 );
-
-        System.out.println( lst );
-
-        java.util.Iterator<Integer> itr = lst.iterator( );
-        while( itr.hasNext( ) )
-        {
-                itr.next( );
-                itr.remove( );
-                System.out.println( lst );
-        }
-    }
 }
