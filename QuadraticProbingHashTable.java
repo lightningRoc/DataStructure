@@ -41,10 +41,23 @@ public class QuadraticProbingHashTable<T> {
 		for(int i=0;i<list.length;i++)list[i]=null;
 	}
 	
+	public boolean isEmpty()//表是否为空
+	{
+		return size==0;
+	}
+	
 	public boolean contains(T element)//元素是否在哈希表中
 	{
 		int pos=findPosition(element);
 		return isActive(pos);
+	}
+	
+	public T find(T element)//通过element返回hash表中的元素
+	{
+		int pos=findPosition(element);
+		if(!isActive(pos))return null;//不存在
+		
+		return list[pos].element;
 	}
 	
 	public void insert(T element)//插入一个元素
