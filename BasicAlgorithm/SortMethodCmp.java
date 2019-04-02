@@ -6,25 +6,34 @@ public class SortMethodCmp {
 	public static void getResultByAMethod(String choice)//计算一个方法小路
 	{
 		Random rand=new Random();
-		Integer[] array=new Integer[1000];
+		Integer[] array=new Integer[10000];
 		long start=System.currentTimeMillis();
-		for(int i=0;i<1000;i++)
+		for(int i=0;i<10;i++)
 		{
-			//计算1000个不同的1000大小的随机数组
-			for(int j=0;j<1000;j++)
+			//计算10个不同的10000大小的随机数组
+			for(int j=0;j<10000;j++)
 			{
-				array[j]=rand.nextInt(100);
+				array[j]=rand.nextInt(1000);
 			}
 			switch(choice)
 			{
 			case "bubble":
-				BubbleSort.BubbleSort(array);
+				BubbleSort.bubbleSort(array);
 				break;
 			case "select":
-				SelectSort.SelectSort(array);
+				SelectSort.selectSort(array);
 				break;
 			case "insert":
-				InsertSort.InsertSort(array);
+				InsertSort.insertSort(array);
+				break;
+			case "shell":
+				ShellSort.shellSort(array);
+				break;
+			case "heap":
+				HeapSort.heapSort(array);
+				break;
+			case "merge":
+				MergeSort.mergeSort(array);
 				break;
 			}
 		}
@@ -37,6 +46,9 @@ public class SortMethodCmp {
 		getResultByAMethod("bubble");
 		getResultByAMethod("insert");
 		getResultByAMethod("select");
+		getResultByAMethod("shell");
+		getResultByAMethod("heap");
+		getResultByAMethod("merge");
 	}
 
 }
