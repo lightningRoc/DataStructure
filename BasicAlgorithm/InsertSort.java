@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class InsertSort {
 	//插入排序
-	public static void InsertSort(Comparable[] array)
+	public static void insertSort(Comparable[] array)
 	{
 		int len=array.length;
 		for(int i=1;i<len;i++)
@@ -11,7 +11,11 @@ public class InsertSort {
 			for(int j=i-1;;j--)
 			{
 				//搜寻将j位置的元素插入到前面的有序数组中的合适位置
-				if(j>=0&&(array[j].compareTo(num)>0))exchange(j,j+1,array);
+				if(j>=0&&(array[j].compareTo(num)>0))
+				{
+					//不显示进行交换
+					array[j+1]=array[j];
+				}
 				else
 				{
 					array[j+1]=num;
@@ -45,7 +49,7 @@ public class InsertSort {
 		{
 			a[i]=rand.nextInt(100);
 		}
-		InsertSort(a);
+		insertSort(a);
 		System.out.println(isSorted(a));
 	}
 
