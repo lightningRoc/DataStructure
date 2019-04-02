@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class BubbleSort {
 	//Ã°ÅÝÅÅÐò
-	public static void BubbleSort(Comparable[] array)
+	public static void bubbleSort(Comparable[] array)
 	{
 		for(int i=array.length-2;i>=0;i--)
 		{
@@ -38,7 +38,7 @@ public class BubbleSort {
 		{
 			a[i]=rand.nextInt(100);
 		}
-		BubbleSort(a);
+		bubbleSort(a);
 		System.out.println(isSorted(a));
 	}
 

@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class SelectSort {
 	//—°‘Ò≈≈–Ú
-	public static void SelectSort(Comparable[] array)
+	public static void selectSort(Comparable[] array)
 	{
 		int len=array.length;
 		for(int i=0;i<len;i++)
@@ -41,7 +41,7 @@ public class SelectSort {
 		{
 			a[i]=rand.nextInt(100);
 		}
-		SelectSort(a);
+		selectSort(a);
 		System.out.println(isSorted(a));
 	}
 
