@@ -35,6 +35,9 @@ public class SortMethodCmp {
 			case "merge":
 				MergeSort.mergeSort(array);
 				break;
+			case "quick":
+				QuickSort.quickSort(array);
+				break;
 			}
 		}
 		long end=System.currentTimeMillis();
@@ -49,6 +52,7 @@ public class SortMethodCmp {
 		getResultByAMethod("shell");
 		getResultByAMethod("heap");
 		getResultByAMethod("merge");
+		getResultByAMethod("quick");
 	}
 
 }
