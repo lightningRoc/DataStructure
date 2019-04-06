@@ -15,6 +15,7 @@ public class SortMethodCmp {
 			{
 				array[j]=rand.nextInt(1000);
 			}
+			//选择相应的算法
 			switch(choice)
 			{
 			case "bubble":
@@ -38,6 +39,12 @@ public class SortMethodCmp {
 			case "quick":
 				QuickSort.quickSort(array);
 				break;
+			case "bucket":
+				BucketSort.bucketSort(array);
+				break;
+			case "radix":
+				RadixSort.radixSort(array);
+				break;
 			}
 		}
 		long end=System.currentTimeMillis();
@@ -53,6 +60,8 @@ public class SortMethodCmp {
 		getResultByAMethod("heap");
 		getResultByAMethod("merge");
 		getResultByAMethod("quick");
+		getResultByAMethod("bucket");
+		getResultByAMethod("radix");
 	}
 
 }
