@@ -3,7 +3,7 @@ import java.util.Random;
 public class SortMethodCmp {
 	//各种排序方法效率比较
 	
-	public static void getResultByAMethod(String choice)//计算一个方法小路
+	public static void getResultByAMethod(String choice)//计算一个方法效率
 	{
 		Random rand=new Random();
 		Integer[] array=new Integer[10000];
@@ -39,6 +39,9 @@ public class SortMethodCmp {
 			case "quick":
 				QuickSort.quickSort(array);
 				break;
+			case "quick3Way":
+				Quick3WaySort.quick3WaySort(array);
+				break;
 			case "bucket":
 				BucketSort.bucketSort(array);
 				break;
@@ -60,6 +63,7 @@ public class SortMethodCmp {
 		getResultByAMethod("heap");
 		getResultByAMethod("merge");
 		getResultByAMethod("quick");
+		getResultByAMethod("quick3Way");
 		getResultByAMethod("bucket");
 		getResultByAMethod("radix");
 	}
