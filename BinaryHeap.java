@@ -124,6 +124,11 @@ public class BinaryHeap<T extends Comparable<? super T>> {
 		}
 	}
 	
+	public int size()
+	{
+		return size;
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		BinaryHeap<Integer> test=new BinaryHeap<>();
