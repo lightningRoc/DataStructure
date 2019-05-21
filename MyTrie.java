@@ -123,7 +123,7 @@ public class MyTrie <T>{
 		if(index==s.length())return len;
 		char c=s.charAt(index);
 		
-		return search(root, s, index+1, len);
+		return search(root.next[c], s, index+1, len);
 	}
 	
 	//返回单词查找树的大小
@@ -163,6 +163,7 @@ public class MyTrie <T>{
 			System.out.println(pre);
 		}
 		System.out.println(trie.get("second"));
+		System.out.println(trie.longestPrefixOf("firstabc"));
 	}
 
 }
